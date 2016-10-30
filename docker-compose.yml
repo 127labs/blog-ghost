@@ -1,0 +1,13 @@
+ghost:
+  image: 127labs/blog
+  ports:
+    - "2368:2368"
+  environment:
+    - NODE_ENV=development
+    - SITE_URL=http://localhost:2368
+    - MAIL_FROM=blog@acme.org
+    - MAIL_TRANSPORT=SMTP
+    - 'MAIL_OPTIONS={"service": "Mailgun", "auth": {"user": "username", "pass": "securepassword"}}'
+  volumes:
+    - ./.dev:/var/lib/ghost
+    - ./src:/var/lib/ghost/themes/127labs

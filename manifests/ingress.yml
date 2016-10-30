@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: blog
+  labels:
+    app: blog
+spec:
+  backend:
+    serviceName: blog
+    servicePort: 2368

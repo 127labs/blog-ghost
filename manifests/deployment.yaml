@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: blog
+spec:
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+        - name: blog
+          image: 127labs/blog
+          ports:
+            - containerPort: 2368
+              name: blog
+          volumeMounts:
+            - name: blog
+              mountPath: /var/lib/ghost
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 2368
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 15
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 2368
+              scheme: HTTP
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: SITE_URL
+              value: http://blog.127labs.com
+            - name: MAIL_FROM
+              value: team@127labs.com
+              name: MAIL_TRANSPORT
+              value: SMTP
+            - name: MAIL_OPTIONS
+              valueFrom:
+                secretKeyRef:
+                  name: blog
+                  key: MAIL_OPTIONS
+      volumes:
+        - name: blog
+          gcePersistentDisk:
+            pdName: blog
+            fsType: ext4
