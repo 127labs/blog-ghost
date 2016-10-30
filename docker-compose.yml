@@ -9,5 +9,6 @@ ghost:
     - MAIL_TRANSPORT=SMTP
     - 'MAIL_OPTIONS={"service": "Mailgun", "auth": {"user": "username", "pass": "securepassword"}}'
   volumes:
-    - ./.dev:/var/lib/ghost
+    - ./.data:/var/lib/ghost/data
+    - ./config.js:/usr/src/ghost/config.js
     - ./src:/var/lib/ghost/themes/127labs
