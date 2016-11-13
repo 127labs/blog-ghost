@@ -46,6 +46,10 @@ spec:
                 secretKeyRef:
                   name: blog
                   key: MAIL_OPTIONS
+          resources:
+            limits:
+              memory: 340M
+              cpu: 200m
       volumes:
         - name: blog
           gcePersistentDisk:
