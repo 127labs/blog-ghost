@@ -9,50 +9,50 @@ spec:
         app: blog
     spec:
       containers:
+      - name: blog
+        image: 127labs/blog
+        ports:
+        - containerPort: 2368
+          name: blog
+        volumeMounts:
         - name: blog
-          image: 127labs/blog
-          ports:
-            - containerPort: 2368
+          mountPath: /var/lib/ghost
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 2368
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 15
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 2368
+            scheme: HTTP
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        env:
+        - name: NODE_ENV
+          value: production
+        - name: SITE_URL
+          value: http://blog.127labs.com
+        - name: MAIL_FROM
+          value: team@127labs.com
+          name: MAIL_TRANSPORT
+          value: SMTP
+        - name: MAIL_OPTIONS
+          valueFrom:
+            secretKeyRef:
               name: blog
-          volumeMounts:
-            - name: blog
-              mountPath: /var/lib/ghost
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 2368
-              scheme: HTTP
-            initialDelaySeconds: 5
-            periodSeconds: 15
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 2368
-              scheme: HTTP
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
-          env:
-            - name: NODE_ENV
-              value: production
-            - name: SITE_URL
-              value: http://blog.127labs.com
-            - name: MAIL_FROM
-              value: team@127labs.com
-              name: MAIL_TRANSPORT
-              value: SMTP
-            - name: MAIL_OPTIONS
-              valueFrom:
-                secretKeyRef:
-                  name: blog
-                  key: MAIL_OPTIONS
-          resources:
-            requests:
-              memory: 128Mi
-              cpu: 100m
-            limits:
-              memory: 256Mi
-              cpu: 200m
+              key: MAIL_OPTIONS
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 200m
       volumes:
         - name: blog
           gcePersistentDisk:
