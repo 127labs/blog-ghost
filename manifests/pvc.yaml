@@ -2,12 +2,9 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: blog
-  namespace: default
-  labels:
-    app : blog
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage : 8Gi
+      storage: 8Gi
