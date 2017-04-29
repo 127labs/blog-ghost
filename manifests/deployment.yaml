@@ -54,7 +54,6 @@ spec:
             memory: 256Mi
             cpu: 200m
       volumes:
-        - name: blog
-          gcePersistentDisk:
-            pdName: blog
-            fsType: ext4
+      - name: blog
+        persistentVolumeClaim:
+          claimName: blog
