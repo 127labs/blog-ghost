@@ -48,11 +48,11 @@ spec:
               key: MAIL_OPTIONS
         resources:
           requests:
-            memory: 256Mi
-            cpu: 200m
+            memory: 512Mi
+            cpu: 300m
           limits:
-            memory: 256Mi
-            cpu: 200m
+            memory: 512Mi
+            cpu: 300m
       volumes:
       - name: blog
         persistentVolumeClaim:
